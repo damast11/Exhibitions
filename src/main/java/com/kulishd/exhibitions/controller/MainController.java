@@ -1,8 +1,8 @@
 package com.kulishd.exhibitions.controller;
 
-import com.kulishd.exhibitions.domain.Message;
+import com.kulishd.exhibitions.domain.Exposition;
 import com.kulishd.exhibitions.domain.User;
-import com.kulishd.exhibitions.repos.MessageRepo;
+import com.kulishd.exhibitions.repos.ExpositionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,47 +11,49 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.Map;
 
 @Controller
 public class MainController {
     @Autowired
-    private MessageRepo messageRepo;
+    private ExpositionRepo expositionRepo;
+
+//    @GetMapping("/")
+//    public String greeting(Map<String, Object> model) {
+//        return "greeting";
+//    }
 
     @GetMapping("/")
-    public String greeting(Map<String, Object> model) {
-        return "greeting";
-    }
+    public String main(@RequestParam(required = false) Date filter, Model model) {
+        Iterable<Exposition> expositions = expositionRepo.findAll();
 
-    @GetMapping("/main")
-    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Message> messages = messageRepo.findAll();
-
-        if (filter != null && !filter.isEmpty()) {
-            messages = messageRepo.findByTag(filter);
+        if (filter != null ) {
+            expositions = expositionRepo.findByDate(filter);
         } else {
-            messages = messageRepo.findAll();
+            expositions = expositionRepo.findAll();
         }
 
-        model.addAttribute("messages", messages);
+        model.addAttribute("expositions", expositions);
         model.addAttribute("filter", filter);
 
         return "main";
     }
 
-    @PostMapping("/main")
+    @PostMapping("/")
     public String add(
             @AuthenticationPrincipal User user,
-            @RequestParam String text,
-            @RequestParam String tag, Map<String, Object> model
+            @RequestParam String theme,
+            @RequestParam Double price,
+            @RequestParam Date date, Map<String, Object> model
     ) {
-        Message message = new Message(text, tag, user);
+        Exposition exposition = new Exposition(theme, price, date, user);
 
-        messageRepo.save(message);
+        expositionRepo.save(exposition);
 
-        Iterable<Message> messages = messageRepo.findAll();
+        Iterable<Exposition> expositions = expositionRepo.findAll();
 
-        model.put("messages", messages);
+        model.put("expositions", expositions);
 
         return "main";
     }

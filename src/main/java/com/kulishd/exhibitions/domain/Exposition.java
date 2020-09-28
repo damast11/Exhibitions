@@ -1,27 +1,30 @@
 package com.kulishd.exhibitions.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-public class Message {
+public class Exposition {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    private String text;
-    private String tag;
+    private String theme;
+    private Double price;
+    private Date date;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
 
-    public Message() {
+    public Exposition() {
     }
 
-    public Message(String text, String tag, User user) {
+    public Exposition(String theme, Double price, Date date, User user) {
         this.author = user;
-        this.text = text;
-        this.tag = tag;
+        this.theme = theme;
+        this.price = price;
+        this.date = date;
     }
 
     public String getAuthorName() {
@@ -36,12 +39,12 @@ public class Message {
         this.author = author;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTheme(String text) {
+        this.theme = text;
     }
 
-    public String getText() {
-        return text;
+    public String getTheme() {
+        return theme;
     }
 
     public Integer getId() {
@@ -52,11 +55,19 @@ public class Message {
         this.id = id;
     }
 
-    public String getTag() {
-        return tag;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
