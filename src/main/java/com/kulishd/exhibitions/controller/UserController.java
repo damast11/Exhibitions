@@ -34,7 +34,7 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
 
-        return "userEdit";
+        return "userEdit.html";
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping

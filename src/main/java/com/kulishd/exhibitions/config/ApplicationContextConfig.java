@@ -6,7 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import java.util.Locale;
 
 @Configuration
 
@@ -34,14 +37,21 @@ public class ApplicationContextConfig {
         return messageResource;
     }
 
-    @Bean(name = "localeResolver")
-    public LocaleResolver getLocaleResolver()  {
-        CookieLocaleResolver resolver= new CookieLocaleResolver();
-        resolver.setCookieDomain("myAppLocaleCookie");
-        // 60 minutes
+//    @Bean(name = "localeResolver")
+//    public LocaleResolver getLocaleResolver()  {
+//        CookieLocaleResolver resolver= new CookieLocaleResolver();
+//        resolver.setCookieDomain("myAppLocaleCookie");
+//        // 60 minutes
+//        resolver.setDefaultLocale(Locale.ENGLISH);
+//        resolver.setCookieMaxAge(60*60);
+//        return resolver;
+//    }
 
-        resolver.setCookieMaxAge(60*60);
-        return resolver;
+    @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        slr.setDefaultLocale(Locale.US);
+        return slr;
     }
 
 

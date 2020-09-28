@@ -14,14 +14,14 @@
     <td th:text="${exposition}"></td>
 </div>
 
-<form action="${registration}" method="post">
+<form th:action="@{/registration}" method="post">
 
 <div ><label>Login <input type="text" name="username"/> </label></div>
 <div><label> Password: <input type="password" name="password"/> </label></div>
 <div><input type="submit" value="Sign In"/></div>
 </form>
 
-<form action="/logout" method="post">
+<form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
