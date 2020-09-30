@@ -13,6 +13,7 @@ public interface ExpositionRepo extends JpaRepository<Exposition, Long> {
     List<Exposition> findByPrice(Double price);
     List<Exposition> findByDate(Date date);
     List<Exposition> findAll();
+    Exposition findExpositionById(Integer id);
 
 
 }

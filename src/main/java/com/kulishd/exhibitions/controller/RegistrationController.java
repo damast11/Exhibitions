@@ -4,10 +4,16 @@ import com.kulishd.exhibitions.domain.Role;
 import com.kulishd.exhibitions.domain.User;
 import com.kulishd.exhibitions.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -34,4 +40,18 @@ public class RegistrationController {
         userRepo.save(user);
         return "redirect:/login";
     }
+
+//    @GetMapping("/success")
+//    public void loginPageRedirect(HttpServletRequest request, HttpServletResponse response, Authentication authResult) throws IOException, ServletException {
+//
+//        String role =  authResult.getAuthorities().toString();
+//
+//        if(role.contains("ADMIN")){
+//           response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/admin"));
+//
+//        }
+//        else if(role.contains("USER")) {
+//            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/"));
+//        }
+//    }
 }
