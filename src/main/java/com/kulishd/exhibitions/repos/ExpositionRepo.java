@@ -14,6 +14,7 @@ public interface ExpositionRepo extends JpaRepository<Exposition, Long> {
     List<Exposition> findByDate(Date date);
     List<Exposition> findAll();
     Exposition findExpositionById(Integer id);
+    void deleteExpositionById(Integer id);
 
 
 }

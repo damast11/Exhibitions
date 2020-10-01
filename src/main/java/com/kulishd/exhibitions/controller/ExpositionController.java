@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.transaction.Transactional;
+
 
 @Controller
 public class ExpositionController {
@@ -27,7 +29,29 @@ public class ExpositionController {
 
     //display list of expositions
     @GetMapping("/")
-    public String viewHomePage(Model model) {
+    public String viewHomePage(Model model){
+        return findPaginated(1, "theme", "asc", model);
+    }
+
+    @GetMapping("/filter")
+    public String filter (@RequestParam(required = false, defaultValue = "") String filterTheme,
+                               @RequestParam(required = false, defaultValue = "") Double filterPrice,
+                               @RequestParam(required = false) Date filterDate, Model model) {
+        Iterable<Exposition> expositions;
+
+        if (filterTheme != null && !filterTheme.isEmpty()) {
+            expositions = expositionService.findByTheme(filterTheme);
+            model.addAttribute("filterTheme", filterTheme);
+        } else if (filterPrice != null) {
+            expositions = expositionService.findByPrice(filterPrice);
+            model.addAttribute("filterPrice", filterPrice);
+        } else if (filterDate != null) {
+            expositions = expositionService.findByDate(filterDate);
+            model.addAttribute("filterDate", filterDate);
+        } else {
+            expositions = expositionService.findAll();
+        }
+        model.addAttribute("expositions", expositions);
         return findPaginated(1, "theme", "asc", model);
     }
 
@@ -65,18 +89,26 @@ public class ExpositionController {
         return "new_exhibition";
     }
 
-    @PostMapping("/saveExposition")
-    public String saveExposition(
-            @AuthenticationPrincipal User user,
-            @RequestParam String theme,
-            @RequestParam Double price,
-            @RequestParam Date date, Map<String, Object> model
-    ) {
-        Exposition exposition = new Exposition(theme, price, date, user);
+//    @PostMapping("/saveExposition")
+//    public String saveExposition(
+//            @AuthenticationPrincipal User user,
+//            @RequestParam String theme,
+//            @RequestParam Double price,
+//            @RequestParam Date date, Map<String, Object> model
+//    ) {
+//
+//        Exposition exposition = new Exposition(theme, price, date, user);
+//
+//        expositionService.save(exposition);
+//        return "redirect:/";
+//    }
 
-        expositionService.save(exposition);
-        return "redirect:/";
+    @PostMapping("/saveExposition")
+    public String saveExposition(@ModelAttribute("exposition") Exposition exposition){
+    expositionService.save(exposition);
+    return "redirect:/";
     }
+
 
     @GetMapping("/page/{pageNo}")
     public String findPaginated(@PathVariable(value = "pageNo") int pageNo,
@@ -87,7 +119,6 @@ public class ExpositionController {
 
         Page<Exposition> page = expositionService.findPaginated(pageNo, pageSize, sortField, sortDir);
         List<Exposition> listExpositions = page.getContent();
-
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -111,14 +142,13 @@ public class ExpositionController {
         model.addAttribute("exposition", exposition);
         return "update_exhibition";
     }
+    @Transactional
+    @GetMapping("/deleteExposition/{id}")
+    public String deleteExposition(@PathVariable(value = "id") Integer id) {
+        expositionService.deleteExposition(id);
+        return "redirect:/";
+    }
 
-//    @GetMapping("/deleteEmployee/{id}")
-//    public String deleteEmployee(@PathVariable(value = "id") long id) {
-//
-//        // call delete employee method
-//        this.expositionService.deleteEmployeeById(id);
-//        return "redirect:/";
-//    }
 }
 
 

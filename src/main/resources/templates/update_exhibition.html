@@ -12,17 +12,16 @@
     <hr>
     <h2>Update Exhibition</h2>
 
-    <form th:action="@{/saveExposition}"
-          method="POST">
+    <form th:action="@{/saveExposition}"  method="POST">
 
         <!-- Add hidden form field to handle update -->
-        <input type="hidden" name="id" />
+        <input type="hidden" name="id" th:value="*{exposition.id}" />
 
-        <input type="text" name="theme" class="form-control mb-4 col-4">
+        <input type="text" name="theme" th:value="*{exposition.theme}" class="form-control mb-4 col-4">
 
-        <input type="text" name="price" class="form-control mb-4 col-4">
+        <input type="text" name="price" th:value="${exposition.price}" class="form-control mb-4 col-4">
 
-        <input type="text" name="date" class="form-control mb-4 col-4">
+        <input type="text" name="date" th:value="${exposition.date}"class="form-control mb-4 col-4">
 
         <button type="submit" class="btn btn-info col-2"> Update Employee</button>
     </form>

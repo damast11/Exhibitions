@@ -18,17 +18,17 @@ public class ExpositionService{
     @Autowired
     private ExpositionRepo expositionRepo;
 
-    public Iterable<Exposition> findByTheme(String date ){
+    public List<Exposition> findByTheme(String date ){
         return expositionRepo.findByTheme(date);
     }
-    public Iterable<Exposition> findByPrice(Double price ){
+    public List<Exposition> findByPrice(Double price ){
         return expositionRepo.findByPrice(price);
     }
-    public Iterable<Exposition> findByDate(Date date ){
+    public List<Exposition> findByDate(Date date ){
         return expositionRepo.findByDate(date);
     }
 
-    public Iterable<Exposition> findAll( ){
+    public List<Exposition> findAll( ){
         return expositionRepo.findAll();
     }
 
@@ -48,4 +48,7 @@ public class ExpositionService{
         return expositionRepo.findExpositionById(id);
     }
 
+    public void deleteExposition(Integer id ){
+        expositionRepo.deleteExpositionById(id);
+    }
 }
