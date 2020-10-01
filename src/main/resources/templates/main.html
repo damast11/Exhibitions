@@ -15,6 +15,11 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+    <form th:action="@{/}">
+        <div>Filter by date</div>
+        <input type="date" name="filterString" th:value="${filterString}">
+        <button type="submit">Найти</button>
+    </form>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
@@ -65,8 +70,10 @@
 <div class="container my-2">
     <h1>Exposition List</h1>
 
-    <a th:href = "@{/showNewExpositionForm}" class="btn btn-primary btn-sm mb-3" sec:authorize="hasAuthority('ADMIN')"> Add Exposition </a>
-    <span><a th:href = "@{/user}" class="btn btn-primary btn-sm mb-3" sec:authorize="hasAuthority('ADMIN')">User list</a></span>
+<!--    <a th:href = "@{/showNewExpositionForm}" class="btn btn-primary btn-sm mb-3" sec:authorize="hasAuthority('ADMIN')"> Add Exposition </a>-->
+<!--    <span><a th:href = "@{/user}" class="btn btn-primary btn-sm mb-3" sec:authorize="hasAuthority('ADMIN')">User list</a></span>-->
+    <a th:href = "@{/showNewExpositionForm}" class="btn btn-primary btn-sm mb-3" > Add Exposition </a>
+    <span><a th:href = "@{/user}" class="btn btn-primary btn-sm mb-3" >User list</a></span>
     <table border="1" class = "table table-striped table-responsive-md">
         <thead>
         <tr>
@@ -86,6 +93,7 @@
             <th sec:authorize="hasAnyAuthority('ADMIN','USER')"> Actions </th>
         </tr>
         </thead>
+
         <tbody>
         <tr th:each="exposition : ${listExpositions}">
             <td th:text="${exposition.theme}"></td>
@@ -146,26 +154,22 @@
     </div>
 </div>
 
-<form th:action="@{/filter}">
-    <div>Filter by theme</div>
-        <input type="text" name="filterTheme" th:value="${filterTheme}">
-        <button type="submit">Найти</button>
-</form>
-<form th:action="@{/filter}">
-    <div>Filter by price</div>
-        <input type="text" name="filterPrice" th:value="${filterPrice}">
-        <button type="submit">Найти</button>
-</form>
-<form th:action="@{/filter}">
-    <div>Filter by date</div>
-        <input type="text" name="filterDate" th:value="${filterDate}">
-        <button type="submit">Найти</button>
-</form>
+<!--<form th:action="@{/}">-->
+<!--    <div>Filter by theme</div>-->
+<!--        <input type="text" name="filterTheme" th:value="${filterTheme}">-->
+<!--        <button type="submit">Найти</button>-->
+<!--</form>-->
+<!--<form th:action="@{/}">-->
+<!--    <div>Filter by price</div>-->
+<!--        <input type="text" name="filterPrice" th:value="${filterPrice}">-->
+<!--        <button type="submit">Найти</button>-->
+<!--</form>-->
+
 <!--    <div style="text-align: center;padding:5px;margin:5px 0px;">-->
 <!--    <tr th:each="exposition : ${expositions}">-->
 <!--        <td th:text="${exposition.theme}"> Theme</td>-->
 <!--        <td th:text="${exposition.price}"> Price</td>-->
-<!--        <td th:text="${exposition.date}"> Date</td><br>-->
+<!--        <td th:text="${exposition.date}"> String</td><br>-->
 <!--    </tr>-->
 <!--    </div>-->
 

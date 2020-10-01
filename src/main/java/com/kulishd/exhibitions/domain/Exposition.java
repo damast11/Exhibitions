@@ -1,7 +1,12 @@
 package com.kulishd.exhibitions.domain;
 
+import net.bytebuddy.asm.Advice;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.Locale;
+
 
 @Entity
 public class Exposition {
@@ -11,7 +16,9 @@ public class Exposition {
 
     private String theme;
     private Double price;
-    private Date date;
+    //@DateTimeFormat(pattern = "mm-dd-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -20,7 +27,7 @@ public class Exposition {
     public Exposition() {
     }
 
-    public Exposition(String theme, Double price, Date date, User user) {
+    public Exposition(String theme, Double price, LocalDate date, User user) {
         this.author = user;
         this.theme = theme;
         this.price = price;
@@ -63,11 +70,11 @@ public class Exposition {
         this.price = price;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }

@@ -1,24 +1,20 @@
 package com.kulishd.exhibitions.controller;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import com.kulishd.exhibitions.domain.Exposition;
-import com.kulishd.exhibitions.domain.User;
 import com.kulishd.exhibitions.service.ExpositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+
+
+import java.time.LocalDate;
+
+import java.util.List;
 
 
 @Controller
@@ -28,37 +24,21 @@ public class ExpositionController {
     private ExpositionService expositionService;
 
     //display list of expositions
+//    @GetMapping("/")
+//    public String viewHomePage(Model model) {
+//        return findPaginated(1, "theme", "asc", model);
+//    }
+
     @GetMapping("/")
-    public String viewHomePage(Model model){
-        return findPaginated(1, "theme", "asc", model);
-    }
-
-    @GetMapping("/filter")
-    public String filter (@RequestParam(required = false, defaultValue = "") String filterTheme,
-                               @RequestParam(required = false, defaultValue = "") Double filterPrice,
-                               @RequestParam(required = false) Date filterDate, Model model) {
-        Iterable<Exposition> expositions;
-
-        if (filterTheme != null && !filterTheme.isEmpty()) {
-            expositions = expositionService.findByTheme(filterTheme);
-            model.addAttribute("filterTheme", filterTheme);
-        } else if (filterPrice != null) {
-            expositions = expositionService.findByPrice(filterPrice);
-            model.addAttribute("filterPrice", filterPrice);
-        } else if (filterDate != null) {
-            expositions = expositionService.findByDate(filterDate);
-            model.addAttribute("filterDate", filterDate);
-        } else {
-            expositions = expositionService.findAll();
-        }
-        model.addAttribute("expositions", expositions);
-        return findPaginated(1, "theme", "asc", model);
+    public String filter(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate filterString, Model model) {
+       model.addAttribute("filterString", filterString);
+            return findPaginated(filterString,1, "theme", "asc", model);
     }
 
 //    @GetMapping("/")
 //    public String main(@RequestParam(required = false, defaultValue = "") String filterTheme,
 //                       @RequestParam(required = false, defaultValue = "") Double filterPrice,
-//                       @RequestParam(required = false) Date filterDate, Model model) {
+//                       @RequestParam(required = false) String filterString, Model model) {
 //        Iterable<Exposition> expositions;
 //
 //        if (filterTheme != null && !filterTheme.isEmpty()) {
@@ -69,9 +49,9 @@ public class ExpositionController {
 //            expositions = expositionService.findByPrice(filterPrice);
 //            model.addAttribute("filterPrice", filterPrice);
 //        }
-//        else if (filterDate!=null){
-//            expositions=expositionService.findByDate(filterDate);
-//            model.addAttribute("filterDate", filterDate);
+//        else if (filterString!=null){
+//            expositions=expositionService.findByString(filterString);
+//            model.addAttribute("filterString", filterString);
 //        }
 //        else {
 //            expositions = expositionService.findAll();
@@ -94,7 +74,7 @@ public class ExpositionController {
 //            @AuthenticationPrincipal User user,
 //            @RequestParam String theme,
 //            @RequestParam Double price,
-//            @RequestParam Date date, Map<String, Object> model
+//            @RequestParam String date, Map<String, Object> model
 //    ) {
 //
 //        Exposition exposition = new Exposition(theme, price, date, user);
@@ -104,20 +84,26 @@ public class ExpositionController {
 //    }
 
     @PostMapping("/saveExposition")
-    public String saveExposition(@ModelAttribute("exposition") Exposition exposition){
-    expositionService.save(exposition);
-    return "redirect:/";
+    public String saveExposition(@ModelAttribute("exposition") Exposition exposition) {
+        expositionService.save(exposition);
+        return "redirect:/";
     }
 
 
     @GetMapping("/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") int pageNo,
+    public String findPaginated(@RequestParam(required = false, value = "filterString") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+
+                                @PathVariable(value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
                                 Model model) {
         int pageSize = 5;
-
-        Page<Exposition> page = expositionService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        Page<Exposition> page;
+        if (date != null ) {
+            page = expositionService.findAllByDate(date, pageNo, pageSize, sortField, sortDir);
+        } else {
+            page = expositionService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        }
         List<Exposition> listExpositions = page.getContent();
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -131,6 +117,27 @@ public class ExpositionController {
         return "main";
     }
 
+//    @PostMapping("/page/{pageNo}")
+//    public String findExpoByTheme(
+//            @PathVariable(value = "pageNo") int pageNo,
+//            @RequestParam("sortField") String sortField,
+//            @RequestParam("sortDir") String sortDir,
+//            Model model) {
+//        int pageSize = 5;
+//
+//        List<Exposition> listExpositions = page.getContent();
+//        model.addAttribute("currentPage", pageNo);
+//        model.addAttribute("totalPages", page.getTotalPages());
+//        model.addAttribute("totalItems", page.getTotalElements());
+//
+//        model.addAttribute("sortField", sortField);
+//        model.addAttribute("sortDir", sortDir);
+//        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+//
+//        model.addAttribute("listExpositions", listExpositions);
+//        return "main";
+//    }
+
 
     @GetMapping("/showFormForUpdate/{id}")
     public String showFormForUpdate(@PathVariable(value = "id") Integer id, Model model) {
@@ -142,6 +149,7 @@ public class ExpositionController {
         model.addAttribute("exposition", exposition);
         return "update_exhibition";
     }
+
     @Transactional
     @GetMapping("/deleteExposition/{id}")
     public String deleteExposition(@PathVariable(value = "id") Integer id) {

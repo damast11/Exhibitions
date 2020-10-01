@@ -36,7 +36,7 @@ public class UserController {
 
         return "userEdit";
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+   // @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String userSave(
             @RequestParam String username,
