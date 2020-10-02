@@ -4,7 +4,6 @@ import com.kulishd.exhibitions.domain.Role;
 import com.kulishd.exhibitions.domain.User;
 import com.kulishd.exhibitions.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ public class UserController {
 
     @GetMapping
     public String userList(Model model) {
-        model.addAttribute("users", userRepo.findAll());
+       model.addAttribute("users", userRepo.findAll());
 
         return "userList";
     }

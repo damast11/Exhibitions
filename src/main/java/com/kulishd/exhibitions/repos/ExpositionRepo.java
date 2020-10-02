@@ -20,4 +20,6 @@ public interface ExpositionRepo extends JpaRepository<Exposition, Long> {
     Page<Exposition> findByDate(LocalDate date, Pageable aInPageable);
 
 
+
+
 }

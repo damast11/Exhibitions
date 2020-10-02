@@ -23,26 +23,6 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-<!--            <li class="nav-item active">-->
-<!--                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>-->
-<!--            </li>-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" href="#">Link</a>-->
-<!--            </li>-->
-<!--            <li class="nav-item dropdown">-->
-<!--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                    Dropdown-->
-<!--                </a>-->
-<!--                <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                    <a class="dropdown-item" href="#">Action</a>-->
-<!--                    <a class="dropdown-item" href="#">Another action</a>-->
-<!--                    <div class="dropdown-divider"></div>-->
-<!--                    <a class="dropdown-item" href="#">Something else here</a>-->
-<!--                </div>-->
-<!--            </li>-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
-<!--            </li>-->
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <a href="/?lang=en">English</a>
@@ -54,14 +34,6 @@
             <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="authenticated">
            <a th:href="@{/logout}" >logout</a>
             </div>
-<!--            <form th:action="@{/logout}" method="post" class="btn btn-primary" sec:authorize="authenticated">-->
-<!--                <input type="submit" value="Log Out"/>-->
-<!--            </form>-->
-<!--            <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="isAuthenticated()">-->
-<!--                <a  href="/logout" class="btn btn-primary">Logout</a>-->
-<!--            </div>-->
-<!--            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
         </form>
     </div>
 </nav>
@@ -72,8 +44,8 @@
 
 <!--    <a th:href = "@{/showNewExpositionForm}" class="btn btn-primary btn-sm mb-3" sec:authorize="hasAuthority('ADMIN')"> Add Exposition </a>-->
 <!--    <span><a th:href = "@{/user}" class="btn btn-primary btn-sm mb-3" sec:authorize="hasAuthority('ADMIN')">User list</a></span>-->
-    <a th:href = "@{/showNewExpositionForm}" class="btn btn-primary btn-sm mb-3" > Add Exposition </a>
-    <span><a th:href = "@{/user}" class="btn btn-primary btn-sm mb-3" >User list</a></span>
+    <a th:href = "@{/showNewExpositionForm}" class="btn btn-primary btn-sm mb-3"sec:authorize="hasAuthority('ADMIN')" > Add Exposition </a>
+    <span><a th:href = "@{/user}" class="btn btn-primary btn-sm mb-3"sec:authorize="hasAuthority('ADMIN')"   >User list</a></span>
     <table border="1" class = "table table-striped table-responsive-md">
         <thead>
         <tr>
@@ -100,9 +72,9 @@
             <td th:text="${exposition.price}"></td>
             <td th:text="${exposition.date}"></td>
 
-            <td > <a th:href="@{/showFormForUpdate/{id}(id=${exposition.id})}" class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')" >Update</a>
-                <a th:href="@{/deleteExposition/{id}(id=${exposition.id})}" class="btn btn-danger" sec:authorize="hasAuthority('ADMIN')">Delete</a>
-                <button th:href="@{/buyTicket}" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#exampleModal" sec:authorize="hasAnyAuthority('ADMIN','USER')"  >Buy ticket</button>
+            <td sec:authorize="isAuthenticated()" > <a th:href="@{/showFormForUpdate/{id}(id=${exposition.id})}" class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')" >Update</a>
+                <a th:href="@{/deleteExposition/{id}(id=${exposition.id})}" class="btn btn-danger" sec:authorize="hasAuthority('ADMIN')" >Delete</a>
+                <button th:href="@{/buyTicket}" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#exampleModal" sec:authorize="hasAnyAuthority('USER','ADMIN')"  >Buy ticket</button>
             </td>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
