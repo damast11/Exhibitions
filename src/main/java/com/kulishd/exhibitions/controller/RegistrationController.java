@@ -50,7 +50,7 @@ public class RegistrationController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
             //logger.info("logout ok");
         }
-        return "redirect:/login";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
+        return "redirect:/login";
     }
 
 

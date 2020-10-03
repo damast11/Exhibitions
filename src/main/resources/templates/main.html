@@ -28,6 +28,8 @@
             <a href="/?lang=en">English</a>
             &nbsp;&nbsp;
             <a href="/?lang=fr">France</a>
+            <a href="/?lang=ua">Ukraine</a>
+
             <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="isAnonymous()">
                 <a data-th-text="#{label.submit}" href="/login" class="btn btn-primary">Login</a>
             </div>
@@ -61,6 +63,10 @@
                 <a th:href="@{'/page/' + ${currentPage} + '?sortField=date&sortDir=' + ${reverseSortDir}}">
                     Date</a>
             </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=halls&sortDir=' + ${reverseSortDir}}">
+                    Halls</a>
+            </th>
 
             <th sec:authorize="hasAnyAuthority('ADMIN','USER')"> Actions </th>
         </tr>
@@ -71,7 +77,7 @@
             <td th:text="${exposition.theme}"></td>
             <td th:text="${exposition.price}"></td>
             <td th:text="${exposition.date}"></td>
-
+            <td th:text="${exposition.halls}"></td>
             <td sec:authorize="isAuthenticated()" > <a th:href="@{/showFormForUpdate/{id}(id=${exposition.id})}" class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')" >Update</a>
                 <a th:href="@{/deleteExposition/{id}(id=${exposition.id})}" class="btn btn-danger" sec:authorize="hasAuthority('ADMIN')" >Delete</a>
                 <button th:href="@{/buyTicket}" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#exampleModal" sec:authorize="hasAnyAuthority('USER','ADMIN')"  >Buy ticket</button>

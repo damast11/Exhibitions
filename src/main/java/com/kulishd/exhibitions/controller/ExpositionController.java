@@ -23,66 +23,18 @@ public class ExpositionController {
     @Autowired
     private ExpositionService expositionService;
 
-    //display list of expositions
-//    @GetMapping("/")
-//    public String viewHomePage(Model model) {
-//        return findPaginated(1, "theme", "asc", model);
-//    }
-
     @GetMapping("/")
     public String filter(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate filterString, Model model) {
        model.addAttribute("filterString", filterString);
             return findPaginated(filterString,1, "theme", "asc", model);
     }
 
-//    @GetMapping("/")
-//    public String main(@RequestParam(required = false, defaultValue = "") String filterTheme,
-//                       @RequestParam(required = false, defaultValue = "") Double filterPrice,
-//                       @RequestParam(required = false) String filterString, Model model) {
-//        Iterable<Exposition> expositions;
-//
-//        if (filterTheme != null && !filterTheme.isEmpty()) {
-//            expositions = expositionService.findByTheme(filterTheme);
-//            model.addAttribute("filterTheme", filterTheme);
-//        }
-//        else if(filterPrice!=null ){
-//            expositions = expositionService.findByPrice(filterPrice);
-//            model.addAttribute("filterPrice", filterPrice);
-//        }
-//        else if (filterString!=null){
-//            expositions=expositionService.findByString(filterString);
-//            model.addAttribute("filterString", filterString);
-//        }
-//        else {
-//            expositions = expositionService.findAll();
-//        }
-//        model.addAttribute("expositions", expositions);
-//
-//        return "main";
-//    }
-
     @GetMapping("/showNewExpositionForm")
     public String showNewEmployeeForm(Model model) {
-        // create model attribute to bind form data
         Exposition exposition = new Exposition();
         model.addAttribute("exposition", exposition);
         return "new_exhibition";
     }
-
-//    @PostMapping("/saveExposition")
-//    public String saveExposition(
-//            @AuthenticationPrincipal User user,
-//            @RequestParam String theme,
-//            @RequestParam Double price,
-//            @RequestParam String date, Map<String, Object> model
-//    ) {
-//
-//        Exposition exposition = new Exposition(theme, price, date, user);
-//
-//        expositionService.save(exposition);
-//        return "redirect:/";
-//    }
-
     @PostMapping("/saveExposition")
     public String saveExposition(@ModelAttribute("exposition") Exposition exposition) {
         expositionService.save(exposition);
@@ -92,7 +44,6 @@ public class ExpositionController {
 
     @GetMapping("/page/{pageNo}")
     public String findPaginated(@RequestParam(required = false, value = "filterString") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
-
                                 @PathVariable(value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
@@ -117,35 +68,10 @@ public class ExpositionController {
         return "main";
     }
 
-//    @PostMapping("/page/{pageNo}")
-//    public String findExpoByTheme(
-//            @PathVariable(value = "pageNo") int pageNo,
-//            @RequestParam("sortField") String sortField,
-//            @RequestParam("sortDir") String sortDir,
-//            Model model) {
-//        int pageSize = 5;
-//
-//        List<Exposition> listExpositions = page.getContent();
-//        model.addAttribute("currentPage", pageNo);
-//        model.addAttribute("totalPages", page.getTotalPages());
-//        model.addAttribute("totalItems", page.getTotalElements());
-//
-//        model.addAttribute("sortField", sortField);
-//        model.addAttribute("sortDir", sortDir);
-//        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-//
-//        model.addAttribute("listExpositions", listExpositions);
-//        return "main";
-//    }
-
-
     @GetMapping("/showFormForUpdate/{id}")
     public String showFormForUpdate(@PathVariable(value = "id") Integer id, Model model) {
 
-        // get employee from the service
         Exposition exposition = expositionService.findById(id);
-
-        // set employee as a model attribute to pre-populate the form
         model.addAttribute("exposition", exposition);
         return "update_exhibition";
     }

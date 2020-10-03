@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Set;
 
 
 @Entity
@@ -13,12 +14,16 @@ public class Exposition {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-
     private String theme;
     private Double price;
-    //@DateTimeFormat(pattern = "mm-dd-yyyy")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "exposition_hall",
+            joinColumns = { @JoinColumn(name = "exposition_id") },
+            inverseJoinColumns = { @JoinColumn(name = "hall_id") })
+    private Set<Hall>  halls;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -27,11 +32,11 @@ public class Exposition {
     public Exposition() {
     }
 
-    public Exposition(String theme, Double price, LocalDate date, User user) {
-        this.author = user;
+    public Exposition(String theme, Double price, LocalDate date, User author) {
         this.theme = theme;
         this.price = price;
         this.date = date;
+        this.author = author;
     }
 
     public String getAuthorName() {
@@ -76,5 +81,13 @@ public class Exposition {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public Set<Hall> getHalls() {
+        return halls;
+    }
+
+    public void setHalls(Set<Hall> halls) {
+        this.halls = halls;
     }
 }
