@@ -50,6 +50,7 @@ public class RegistrationController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
             //logger.info("logout ok");
         }
+
         return "redirect:/login";
     }
 

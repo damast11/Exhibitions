@@ -15,7 +15,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Exhibitions</a>
+    <a class="navbar-brand" href="/" data-th-text="#{label.mainExhibitions}">Exhibitions</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -25,39 +25,35 @@
         <ul class="navbar-nav mr-auto">
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <a href="/?lang=en">English</a>
+            <a href="/?lang=en" data-th-text="#{label.english}">English</a>
+
+
+            <a href="/?lang=en" data-th-text="#{label.ukraine}">Ukraine</a>
             &nbsp;&nbsp;
-            <a href="/?lang=fr">France</a>
             <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="isAnonymous()">
-                <a data-th-text="#{label.submit}" href="/login" class="btn btn-primary">Login</a>
+                <a  href="/login" class="btn btn-primary" data-th-text="#{label.submit}">Login</a>
             </div>
             <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="authenticated">
-                <a th:href="@{/logout}" >logout</a>
+                <a th:href="@{/logout}" data-th-text="#{label.logout}">logout</a>
             </div>
         </form>
     </div>
 </nav>
 
-<!--<a data-th-text="#{label.registration}" href="/registration">Registration</a>-->
-<div th:if="${param.error}">
-    Invalid username and password.
+
+<div th:if="${param.error}" data-th-text="#{label.invalid}">
+    Invalid username or password.
 </div>
-<!--<div th:if="${param.logout}">-->
-<!--    You have been logged out.-->
-<!--</div>-->
-<!--<form th:action="@{/logout}" method="post">-->
-<!--    <input type="submit" value="Sign Out"/>-->
-<!--</form>-->
 <div class="container">
-<form th:action="@{/login}" method="post">
-    Login <input type="text" name="username" class="form-control mb-4 col-4"/>
+<form th:action="@{/login}" method="post" >
+    Login: <input type="text" name="username" class="form-control mb-4 col-4"/>
 
     Password: <input type="password" name="password"
                                     class="form-control mb-4 col-4"/>
 
-    <button  type="submit"  class="btn btn-info col-2"> Sign in</button>
+    <button  type="submit"  class="btn btn-info col-2" data-th-text="#{label.signIn}"> Sign in</button>
     OR
-    <a data-th-text="#{label.registration}" href="/registration">Registration</a>
+    <a data-th-text="#{label.registration}" href="/registration" >Registration</a>
 </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
