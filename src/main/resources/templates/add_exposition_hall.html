@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Developer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" th:href="@{../css/bootstrap.min.css}" />
+</head>
+<body>
+<h1>Add hall</h1>
+<form th:action="@{/exposition/{id}/halls(id=${exposition.id})}" enctype="multipart/form-data" >
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Exposition info</div>
+            <div class="panel-body" style="padding-left: 5px;">
+                Theme: <span th:text="${exposition.theme}" /> <br/>
+                Price: <span th:text="${exposition.price}" /><br/>
+                Date: <span th:text="${exposition.date}" /><br/>
+                <br/>Halls:
+                <span th:each="hall : ${halls}">
+					<br/>&nbsp;&nbsp;<span th:text="${hall.name}" />
+				</span>
+                <br/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <select class="form-control" name="hallId">
+                <option th:each="hall : ${halls}"
+                        th:value="${hall.id}"
+                        th:text="${hall.name}">Hall</option>
+            </select>
+        </div>
+        <input type="submit" class="btn btn-success" value="Add hall"/>
+    </div>
+</form>
+</body>
+</html>

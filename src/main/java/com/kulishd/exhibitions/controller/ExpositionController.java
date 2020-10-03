@@ -37,6 +37,7 @@ public class ExpositionController {
     }
     @PostMapping("/saveExposition")
     public String saveExposition(@ModelAttribute("exposition") Exposition exposition) {
+
         expositionService.save(exposition);
         return "redirect:/";
     }

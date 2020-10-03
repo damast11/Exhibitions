@@ -4,6 +4,7 @@ import com.kulishd.exhibitions.domain.Exposition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -18,6 +19,7 @@ public interface ExpositionRepo extends JpaRepository<Exposition, Long> {
     void deleteExpositionById(Integer id);
 
     Page<Exposition> findByDate(LocalDate date, Pageable aInPageable);
+
 
 
 

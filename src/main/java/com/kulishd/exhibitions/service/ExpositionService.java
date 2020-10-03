@@ -59,15 +59,14 @@ public class ExpositionService{
         return expositionRepo.findByDate(date,pageable);
     }
 
-
-
     public Exposition findById(Integer id){
         return expositionRepo.findExpositionById(id);
     }
 
 
-
     public void deleteExposition(Integer id ){
         expositionRepo.deleteExpositionById(id);
     }
+
+
 }

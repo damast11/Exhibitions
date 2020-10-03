@@ -77,10 +77,18 @@
             <td th:text="${exposition.theme}"></td>
             <td th:text="${exposition.price}"></td>
             <td th:text="${exposition.date}"></td>
-            <td th:text="${exposition.halls}"></td>
+            <td>
+				<span th:each="hall,iterStat : ${exposition.halls}">
+					<span th:text="${hall.name}"/><th:block th:if="${!iterStat.last}">,</th:block>
+				</span>
+            </td>
+
+
             <td sec:authorize="isAuthenticated()" > <a th:href="@{/showFormForUpdate/{id}(id=${exposition.id})}" class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')" >Update</a>
                 <a th:href="@{/deleteExposition/{id}(id=${exposition.id})}" class="btn btn-danger" sec:authorize="hasAuthority('ADMIN')" >Delete</a>
                 <button th:href="@{/buyTicket}" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#exampleModal" sec:authorize="hasAnyAuthority('USER','ADMIN')"  >Buy ticket</button>
+                <a th:href="@{/addExpositionHall/{id}(id=${exposition.id})}" class="btn btn-outline-success my-2 my-sm-0"  sec:authorize="hasAuthority('ADMIN')"  >Add Halls</a>
+
             </td>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

@@ -7,7 +7,7 @@ import java.util.Set;
 public class Hall {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private long id;
+    private Integer id;
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER,mappedBy = "halls")
@@ -17,6 +17,14 @@ public class Hall {
 
     public Hall(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
