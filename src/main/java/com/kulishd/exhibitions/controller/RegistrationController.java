@@ -3,6 +3,8 @@ package com.kulishd.exhibitions.controller;
 import com.kulishd.exhibitions.domain.Role;
 import com.kulishd.exhibitions.domain.User;
 import com.kulishd.exhibitions.repos.UserRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,7 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
+    private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
     @Autowired
     private UserRepo userRepo;
 
@@ -48,7 +51,7 @@ public class RegistrationController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
-            //logger.info("logout ok");
+            log.info("logout ok");
         }
 
         return "redirect:/login";
