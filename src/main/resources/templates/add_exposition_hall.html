@@ -57,7 +57,7 @@
             <select class="form-control" name="hallId">
                 <option th:each="hall : ${halls}"
                         th:value="${hall.id}"
-                        th:text="${hall.name}" data-th-text="#{label.hall}">Hall</option>
+                        th:text="${hall.name}" >Hall</option>
             </select>
         </div>
         <input type="submit" class="btn btn-success" value="Add hall"/>
