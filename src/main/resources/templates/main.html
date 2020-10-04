@@ -88,17 +88,17 @@
 
             <td sec:authorize="isAuthenticated()" >
                 <a th:href="@{/showFormForUpdate/{id}(id=${exposition.id})}"
-                   class="btn btn-primary" data-th-text="#{label.update}" >Update</a>
+                   class="btn btn-primary" data-th-text="#{label.update}" sec:authorize="hasAuthority('ADMIN')" >Update</a>
 
                 <a th:href="@{/deleteExposition/{id}(id=${exposition.id})}"
-                   class="btn btn-danger" data-th-text="#{label.delete}" >Delete</a>
+                   class="btn btn-danger" data-th-text="#{label.delete}" sec:authorize="hasAuthority('ADMIN')" >Delete</a>
 
                 <button th:href="@{/buyTicket}" class="btn btn-outline-success my-2 my-sm-0"
                         data-toggle="modal" data-target="#exampleModal"
                         sec:authorize="hasAnyAuthority('USER','ADMIN')" data-th-text="#{label.buyTicket}" >Buy ticket</button>
 
                 <a th:href="@{/addExpositionHall/{id}(id=${exposition.id})}"
-                   class="btn btn-outline-success my-2 my-sm-0" data-th-text="#{label.addHalls}"  >Add Halls</a>
+                   class="btn btn-outline-success my-2 my-sm-0" data-th-text="#{label.addHalls}" sec:authorize="hasAuthority('ADMIN')" >Add Halls</a>
 
             </td>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

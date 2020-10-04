@@ -8,9 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -18,6 +16,7 @@ public class ExpositionService{
 
     @Autowired
     private ExpositionRepo expositionRepo;
+
     public Page<Exposition> findByPagination(LocalDate date, int pageNo, int pageSize, String sortField, String sortDirection ){
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();

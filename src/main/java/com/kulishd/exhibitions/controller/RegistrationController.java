@@ -3,6 +3,7 @@ package com.kulishd.exhibitions.controller;
 import com.kulishd.exhibitions.domain.Role;
 import com.kulishd.exhibitions.domain.User;
 import com.kulishd.exhibitions.repos.UserRepo;
+import com.kulishd.exhibitions.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,24 +26,27 @@ import java.util.Map;
 public class RegistrationController {
     private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
     @Autowired
-    private UserRepo userRepo;
+    private UserService userService;
 
     @GetMapping("/registration")
     public String registration() {
+        log.info("registration OK");
         return "registration";
     }
 
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
-        User userFromDb = userRepo.findByUsername(user.getUsername());
+        User userFromDb = userService.findUserByUsername(user.getUsername());
 
         if (userFromDb != null) {
-            model.put("exposition", "User exists!");
+            model.put("user", "User exists!");
+            log.info("User exists!");
             return "registration";
         }
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
+        userService.saveUser(user);
+        log.info("new User registrated");
         return "redirect:/login";
     }
 
@@ -57,22 +61,4 @@ public class RegistrationController {
         return "redirect:/login";
     }
 
-
-
-
-
-
-//    @GetMapping("/success")
-//    public void loginPageRedirect(HttpServletRequest request, HttpServletResponse response, Authentication authResult) throws IOException, ServletException {
-//
-//        String role =  authResult.getAuthorities().toString();
-//
-//        if(role.contains("ADMIN")){
-//           response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/admin"));
-//
-//        }
-//        else if(role.contains("USER")) {
-//            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/"));
-//        }
-//    }
 }

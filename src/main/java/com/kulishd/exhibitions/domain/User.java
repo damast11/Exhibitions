@@ -22,6 +22,17 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+
+    public User() {
+    }
+
+    public User(Long id, String username, String password, boolean active) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.active = active;
+    }
+
     public Long getId() {
         return id;
     }

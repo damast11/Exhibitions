@@ -30,7 +30,7 @@ public class ExpositionController {
     }
 
     @GetMapping("/showNewExpositionForm")
-    public String showNewEmployeeForm(Model model) {
+    public String showNewExpositionForm(Model model) {
         Exposition exposition = new Exposition();
         model.addAttribute("exposition", exposition);
         return "new_exhibition";
