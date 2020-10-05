@@ -7,9 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExpositionService{
@@ -67,5 +72,7 @@ public class ExpositionService{
         expositionRepo.deleteExpositionById(id);
     }
 
-
+    public void updateTicket(Integer id){
+        expositionRepo.updateCountOfTickets(id);
+    }
 }

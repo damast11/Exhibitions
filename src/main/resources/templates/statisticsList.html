@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+    <h1>Exposition statistics</h1>
+
+    <meta charset="UTF-8">
+    <title data-th-text="#{label.title}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a data-th-text="#{label.mainExhibitions}" class="navbar-brand" href="/">Exhibitions</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <form  th:action="@{/}">
+        <div data-th-text="#{label.filterByDate}">Filter by date</div>
+        <input type="date" name="filterString" th:value="${filterString}">
+        <button data-th-text="#{label.find}" type="submit">Find</button>
+    </form>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <a data-th-text="#{label.english}" href="/?lang=en">English</a>
+            &nbsp;&nbsp;
+
+            <a data-th-text="#{label.ukraine}" href="/?lang=ua">Ukraine</a>
+
+            <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="isAnonymous()">
+                <a data-th-text="#{label.submit}" href="/login" class="btn btn-primary">Login</a>
+            </div>
+            <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="authenticated">
+                <a data-th-text="#{label.logout}" th:href="@{/logout}" >Logout</a>
+            </div>
+        </form>
+    </div>
+</nav>
+
+<table border="1" class = "table table-striped table-responsive-md">
+    <thead>
+    <tr>
+        <th>
+            <a th:href="@{'/page/' + ${currentPage} + '?sortField=theme&sortDir=' + ${reverseSortDir}}" data-th-text="#{label.theme}">
+                Theme</a>
+        </th>
+        <th>
+            <a th:href="@{'/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir}}" data-th-text="#{label.price}">
+                Price</a>
+        </th>
+        <th>
+            <a th:href="@{'/page/' + ${currentPage} + '?sortField=date&sortDir=' + ${reverseSortDir}}" data-th-text="#{label.date}">
+                Date</a>
+        </th>
+        <th>
+            <a th:href="@{'/page/' + ${currentPage} + '?sortField=halls&sortDir=' + ${reverseSortDir}}" data-th-text="#{label.halls}">
+                Halls</a>
+        </th>
+
+        <th th:href="@{'/page/' + ${currentPage} + '?sortField=halls&sortDir=' + ${reverseSortDir}}" data-th-text="#{label.sold}">
+            Sold tickets </th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+    <tr th:each="exposition : ${listExpositions}">
+        <td th:text="${exposition.theme}"></td>
+        <td th:text="${exposition.price}"></td>
+        <td th:text="${exposition.date}"></td>
+        <td>
+				<span th:each="hall,iterStat : ${exposition.halls}">
+					<span th:text="${hall.name}"/><th:block th:if="${!iterStat.last}">,</th:block>
+				</span>
+        </td>
+        <td th:text="${exposition.countOfTickets}"></td>
+    </tr>
+    </tbody>
+</table>
+<div th:if="${totalPages > 1}">
+    <div class="row col-sm-10">
+        <div class="col-sm-2">
+            Total Rows: [[${totalItems}]]
+        </div>
+        <div class="col-sm-2">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}"
+                           th:href="@{'statistics/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+        </div>
+        <div class="col-sm-1">
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{'statistics/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" data-th-text="#{label.next}">Next</a>
+            <span th:unless="${currentPage < totalPages}" data-th-text="#{label.next}">Next</span>
+        </div>
+
+        <div class="col-sm-1">
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{'statistics/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" data-th-text="#{label.last}">Last</a>
+            <span th:unless="${currentPage < totalPages}" data-th-text="#{label.last}">Last</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class RegistrationController {
         log.info("registration OK");
         return "registration";
     }
-
+@Transactional
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
         User userFromDb = userService.findUserByUsername(user.getUsername());

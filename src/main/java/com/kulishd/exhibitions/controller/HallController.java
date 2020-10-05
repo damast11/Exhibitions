@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+import java.util.Optional;
+
 @Controller
 public class HallController {
 
@@ -17,6 +20,7 @@ public class HallController {
     @Autowired
     private ExpositionService expositionService;
 
+    @Transactional
     @GetMapping("/addExpositionHall/{id}")
     public String addHall(@PathVariable("id") Integer expositionId, Model model){
         model.addAttribute("halls", hallService.findAllHalls());
@@ -25,19 +29,18 @@ public class HallController {
     }
 
 
-
+    @Transactional
     @GetMapping("/exposition/{id}/halls")
     public String expositionsAddHall(@PathVariable Integer id, @RequestParam Integer hallId, Model model) {
 
         Hall hall = hallService.findHallById(hallId);
         Exposition exposition = expositionService.findById(id);
-
         if (exposition != null) {
             if (!exposition.hasHall(hall)) {
                 exposition.getHalls().add(hall);
             }
             expositionService.save(exposition);
-            model.addAttribute("exposition", expositionService.findById(id));
+            model.addAttribute("exposition", exposition);
             model.addAttribute("halls", hallService.findAllHalls());
             return "redirect:/";
         }

@@ -3,6 +3,7 @@ package com.kulishd.exhibitions.domain;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +15,7 @@ public class Exposition {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
     private String theme;
-    private Double price;
+    private BigDecimal price;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
@@ -28,14 +29,24 @@ public class Exposition {
     @JoinColumn(name = "user_id")
     private User author;
 
+    private Integer countOfTickets;
+
     public Exposition() {
     }
 
-    public Exposition(String theme, Double price, LocalDate date, User author) {
+    public Exposition(String theme, BigDecimal price, LocalDate date, User author) {
         this.theme = theme;
         this.price = price;
         this.date = date;
         this.author = author;
+    }
+
+    public Integer getCountOfTickets() {
+        return countOfTickets;
+    }
+
+    public void setCountOfTickets(Integer countOfTickets) {
+        this.countOfTickets = countOfTickets;
     }
 
     public String getAuthorName() {
@@ -66,11 +77,11 @@ public class Exposition {
         this.id = id;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
