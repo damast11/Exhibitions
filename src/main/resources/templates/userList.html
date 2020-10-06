@@ -51,7 +51,6 @@
         <tr th:each="user : ${users}">
             <td th:text="${user.username}"></td>
             <td th:each="role:${user.roles}"><div th:text="${role}"/> </td>
-            <td><a th:href="@{'/user/'+${user.id}}" data-th-text="#{label.edit}">edit</a></td>
       </tr>
         </div>
     </tbody>
