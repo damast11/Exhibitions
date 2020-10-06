@@ -19,12 +19,6 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <form  th:action="@{/}">
-        <div data-th-text="#{label.filterByDate}">Filter by date</div>
-        <input type="date" name="filterString" th:value="${filterString}">
-        <button data-th-text="#{label.find}" type="submit">Find</button>
-    </form>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
         </ul>
@@ -86,19 +80,19 @@
 </table>
 <div th:if="${totalPages > 1}">
     <div class="row col-sm-10">
-        <div class="col-sm-2">
+        <div class="col-sm-2">6+
             Total Rows: [[${totalItems}]]
         </div>
         <div class="col-sm-2">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
 						<a th:if="${currentPage != i}"
-                           th:href="@{'statistics/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                           th:href="@{'/statistics/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
 						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
 					</span>
         </div>
         <div class="col-sm-1">
             <a th:if="${currentPage < totalPages}"
-               th:href="@{'statistics/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" data-th-text="#{label.next}">Next</a>
+               th:href="@{'/statistics/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" data-th-text="#{label.next}">Next</a>
             <span th:unless="${currentPage < totalPages}" data-th-text="#{label.next}">Next</span>
         </div>
 

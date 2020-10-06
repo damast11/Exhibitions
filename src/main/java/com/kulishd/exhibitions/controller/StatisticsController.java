@@ -20,28 +20,20 @@ public class StatisticsController {
     @Autowired
     private ExpositionService expositionService;
 
-
-
     @GetMapping("/statistics")
-    public String filter(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate filterString, Model model) {
-        model.addAttribute("filterString", filterString);
-        return findPaginated(filterString,1, "theme", "asc", model);
+    public String filter(Model model) {
+        return findPaginated(1,"theme","asc",model);
     }
 
     @GetMapping("/statistics/page/{pageNo}")
-    public String findPaginated(@RequestParam(required = false, value = "filterString") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
-                                @PathVariable(value = "pageNo") int pageNo,
+    public String findPaginated(@PathVariable(value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
                                 Model model) {
 
         int pageSize = 5;
-        Page<Exposition> page;
-        if (date != null ) {
-            page = expositionService.findAllByDate(date, pageNo, pageSize, sortField, sortDir);
-        } else {
-            page = expositionService.findPaginated(pageNo, pageSize, sortField, sortDir);
-        }
+        Page<Exposition> page = expositionService.findPaginated(pageNo, pageSize, sortField, sortDir);
+
         List<Exposition> listExpositions = page.getContent();
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());

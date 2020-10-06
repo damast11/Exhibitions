@@ -1,22 +1,17 @@
 package com.kulishd.exhibitions.controller;
 
 import com.kulishd.exhibitions.domain.Exposition;
-import com.kulishd.exhibitions.repos.ExpositionRepo;
 import com.kulishd.exhibitions.service.ExpositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 
 @Controller
@@ -25,7 +20,6 @@ public class ExpositionController {
     private ExpositionService expositionService;
 
 
-    @Transactional
     @GetMapping("/")
     public String filter(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate filterString, Model model) {
         model.addAttribute("filterString", filterString);
