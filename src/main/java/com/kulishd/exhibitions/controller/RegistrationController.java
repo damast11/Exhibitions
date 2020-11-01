@@ -34,7 +34,7 @@ public class RegistrationController {
         log.info("registration OK");
         return "registration";
     }
-@Transactional
+
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
         User userFromDb = userService.findUserByUsername(user.getUsername());
@@ -53,12 +53,10 @@ public class RegistrationController {
 
     @PostMapping("/logout")
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-            log.info("logout ok");
-        }
-
+        request.getSession(false).invalidate();
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+        response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+        response.setDateHeader("Expires", 0);
         return "redirect:/login";
     }
 

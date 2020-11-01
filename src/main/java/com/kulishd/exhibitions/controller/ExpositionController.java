@@ -16,6 +16,7 @@ import java.util.List;
 
 @Controller
 public class ExpositionController {
+    public static final int pageSize = 5;
     @Autowired
     private ExpositionService expositionService;
 
@@ -34,7 +35,7 @@ public class ExpositionController {
     }
     @PostMapping("/saveExposition")
     public String saveExposition(@ModelAttribute("exposition") Exposition exposition) {
-
+        exposition.setCountOfTickets(0);
         expositionService.save(exposition);
         return "redirect:/";
     }
@@ -46,7 +47,6 @@ public class ExpositionController {
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
                                 Model model) {
-        int pageSize = 5;
         Page<Exposition> page;
         if (date != null ) {
             page = expositionService.findAllByDate(date, pageNo, pageSize, sortField, sortDir);
@@ -71,14 +71,13 @@ public class ExpositionController {
         return "update_exhibition";
     }
 
-    @Transactional
+
     @GetMapping("/deleteExposition/{id}")
     public String deleteExposition(@PathVariable(value = "id") Integer id) {
         expositionService.deleteExposition(id);
         return "redirect:/";
     }
 
-    @Transactional
     @GetMapping("/buyTicket/{id}")
     public String buyTicket(@PathVariable(value = "id") Integer id){
         expositionService.updateTicket(id);

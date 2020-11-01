@@ -22,8 +22,8 @@
         <ul class="navbar-nav mr-auto">
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <a href="/?lang=en" data-th-text="#{label.english}">English</a>
-            <a href="/?lang=en" data-th-text="#{label.ukraine}">Ukraine</a>
+            <a href="/user?lang=en" data-th-text="#{label.english}">English</a>
+            <a href="/user?lang=ua" data-th-text="#{label.ukraine}">Ukraine</a>
             &nbsp;&nbsp;
 
             <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="isAnonymous()">
@@ -36,7 +36,7 @@
     </div>
 </nav>
 
-<h2>List of users</h2>
+<h2 data-th-text="#{label.ListOfUsers}">List of users</h2>
 
 <table>
     <thead>

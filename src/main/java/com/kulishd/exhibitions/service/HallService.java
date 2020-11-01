@@ -19,8 +19,9 @@ public class HallService {
     public List<Hall> findAllHalls(){
         return hallRepository.findAll();
     }
-
     public Hall findHallById(Integer hallId) {
         return hallRepository.findById(hallId);
     }
+
+
 }

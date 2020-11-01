@@ -25,10 +25,9 @@
         <ul class="navbar-nav mr-auto">
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <a href="/?lang=en" data-th-text="#{label.english}">English</a>
-
-
-            <a href="/?lang=en" data-th-text="#{label.ukraine}">Ukraine</a>
+            <a href="/login?lang=en" data-th-text="#{label.english}">English</a>
+            &nbsp;&nbsp;
+            <a href="/login?lang=ua" data-th-text="#{label.ukraine}">Ukraine</a>
             &nbsp;&nbsp;
             <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="isAnonymous()">
                 <a  href="/login" class="btn btn-primary" data-th-text="#{label.submit}">Login</a>
@@ -42,17 +41,18 @@
 
 
 <div th:if="${param.error}" data-th-text="#{label.invalid}">
-    Invalid username or password.
+<!--    Invalid username or password.-->
 </div>
 <div class="container">
 <form th:action="@{/login}" method="post" >
-    Login: <input type="text" name="username" class="form-control mb-4 col-4"/>
-
-    Password: <input type="password" name="password"
+    <span data-th-text="#{label.login}"></span>
+    <input type="text" name="username" class="form-control mb-4 col-4"/>
+    <span data-th-text="#{label.password}"></span>
+    <input type="password" name="password"
                                     class="form-control mb-4 col-4"/>
 
     <button  type="submit"  class="btn btn-info col-2" data-th-text="#{label.signIn}"> Sign in</button>
-    OR
+    <span data-th-text="#{label.or}"></span>
     <a data-th-text="#{label.registration}" href="/registration" >Registration</a>
 </form>
 </div>

@@ -30,16 +30,6 @@ public class ApplicationContextConfig {
         return messageResource;
     }
 
-//    @Bean(name = "localeResolver")
-//    public LocaleResolver getLocaleResolver()  {
-//        CookieLocaleResolver resolver= new CookieLocaleResolver();
-//        resolver.setCookieDomain("myAppLocaleCookie");
-//        // 60 minutes
-//        resolver.setDefaultLocale(Locale.ENGLISH);
-//        resolver.setCookieMaxAge(60*60);
-//        return resolver;
-//    }
-
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();

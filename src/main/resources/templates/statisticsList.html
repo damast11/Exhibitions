@@ -23,16 +23,15 @@
         <ul class="navbar-nav mr-auto">
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <a data-th-text="#{label.english}" href="/?lang=en">English</a>
+            <a data-th-text="#{label.english}" href="/statistics?lang=en">English</a>
             &nbsp;&nbsp;
-
-            <a data-th-text="#{label.ukraine}" href="/?lang=ua">Ukraine</a>
-
+            <a data-th-text="#{label.ukraine}" href="/statistics?lang=ua">Ukraine</a>
+            &nbsp;&nbsp;
             <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="isAnonymous()">
                 <a data-th-text="#{label.submit}" href="/login" class="btn btn-primary">Login</a>
             </div>
             <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="authenticated">
-                <a data-th-text="#{label.logout}" th:href="@{/logout}" >Logout</a>
+                <a data-th-text="#{label.logout}" href="/logout" >Logout</a>
             </div>
         </form>
     </div>
@@ -80,8 +79,8 @@
 </table>
 <div th:if="${totalPages > 1}">
     <div class="row col-sm-10">
-        <div class="col-sm-2">6+
-            Total Rows: [[${totalItems}]]
+        <div class="col-sm-2">
+            <span data-th-text="#{label.TotalRows}">[[${totalItems}]]</span>
         </div>
         <div class="col-sm-2">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">

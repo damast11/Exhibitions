@@ -10,7 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class HallController {
@@ -20,7 +23,7 @@ public class HallController {
     @Autowired
     private ExpositionService expositionService;
 
-    @Transactional
+
     @GetMapping("/addExpositionHall/{id}")
     public String addHall(@PathVariable("id") Integer expositionId, Model model){
         model.addAttribute("halls", hallService.findAllHalls());
@@ -29,22 +32,22 @@ public class HallController {
     }
 
 
-    @Transactional
     @GetMapping("/exposition/{id}/halls")
     public String expositionsAddHall(@PathVariable Integer id, @RequestParam Integer hallId, Model model) {
-
         Hall hall = hallService.findHallById(hallId);
         Exposition exposition = expositionService.findById(id);
-        if (exposition != null) {
-            if (!exposition.hasHall(hall)) {
+        if (!Objects.requireNonNull(exposition).hasHall(hall)) {
                 exposition.getHalls().add(hall);
-            }
-            expositionService.save(exposition);
+            saveExpo(exposition);
             model.addAttribute("exposition", exposition);
-            model.addAttribute("halls", hallService.findAllHalls());
+            //model.addAttribute("halls", hallService.findAllHalls());
             return "redirect:/";
         }
 
         return "redirect:/";
+    }
+
+    public void saveExpo(Exposition exposition){
+        expositionService.save(exposition);
     }
 }

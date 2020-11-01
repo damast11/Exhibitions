@@ -1,6 +1,7 @@
 package com.kulishd.exhibitions.repos;
 
 import com.kulishd.exhibitions.domain.Exposition;
+import com.kulishd.exhibitions.domain.Hall;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ExpositionRepo extends JpaRepository<Exposition, Long> {
@@ -27,7 +29,5 @@ public interface ExpositionRepo extends JpaRepository<Exposition, Long> {
     @Modifying
     @Query("update  Exposition set countOfTickets=countOfTickets+1 where id=:id")
     Integer updateCountOfTickets(@Param("id") Integer id);
-
-
 
 }

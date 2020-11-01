@@ -22,10 +22,10 @@
         <ul class="navbar-nav mr-auto">
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <a href="/?lang=en" data-th-text="#{label.english}">English</a>
-            <a href="/?lang=en" data-th-text="#{label.ukraine}">Ukraine</a>
+            <a href="/showNewExpositionForm?lang=en" data-th-text="#{label.english}">English</a>
             &nbsp;&nbsp;
-
+            <a href="/showNewExpositionForm?lang=ua" data-th-text="#{label.ukraine}">Ukraine</a>
+            &nbsp;&nbsp;
             <div style="text-align: right;padding:5px;margin:5px 0px;" sec:authorize="isAnonymous()">
                 <a data-th-text="#{label.submit}" href="/login" class="btn btn-primary" >Login</a>
             </div>
@@ -41,16 +41,13 @@
     <h2 data-th-text="#{label.saveExhibition}">Save Exhibition</h2>
 
     <form th:action="@{/saveExposition}" method="POST">
-        <input type="text" name="theme"
-               placeholder="Exposition theme" class="form-control mb-4 col-4">
-
-        <input type="text" name="price"
-               placeholder="Exposition price" class="form-control mb-4 col-4">
-
-        <input type="date" name="date"
-               placeholder="Exposition date" class="form-control mb-4 col-4">
-
-
+        <span data-th-text="#{label.ExpositionTheam}"></span>
+        <input type="text" name="theme" class="form-control mb-4 col-4">
+        <span data-th-text="#{label.ExpositionPrice}"></span>
+        <input type="text" name="price" class="form-control mb-4 col-4">
+        <span data-th-text="#{label.ExpositionDate}"></span>
+        <input type="date" name="date" class="form-control mb-4 col-4">
+        
         <button type="submit" class="btn btn-info col-2" data-th-text="#{label.saveExhibition}"> Save Exposition</button>
     </form>
 
